@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # روز ۱ — Introduction
 
 ## هدف درس
@@ -283,3 +285,5 @@ Response
 ### Agent چه چیزی فراتر از Chatbot دارد؟
 
 توانایی فراخوانی Tool یا Function و انجام چند مرحله برای رسیدن به یک هدف.
+
+</div>
