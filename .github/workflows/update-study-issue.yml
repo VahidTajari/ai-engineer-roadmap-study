@@ -1,1 +1,161 @@
 
+name: AI Engineer Study Update
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ai-engineer-study-update
+  cancel-in-progress: false
+
+jobs:
+  update-study:
+    if: >
+      startsWith(github.event.issue.title, '[study-update]')
+      && github.event.issue.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.STUDY_REPO_TOKEN }}
+
+      - name: Parse issue payload
+        id: parse
+        shell: bash
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          set -euo pipefail
+
+          python3 <<'PY'
+          import base64
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          raw = os.environ.get("ISSUE_BODY", "").strip()
+          if not raw:
+              raise SystemExit("Issue body is empty.")
+
+          try:
+              payload = json.loads(raw)
+          except json.JSONDecodeError as e:
+              raise SystemExit(f"Issue body must be valid JSON: {e}")
+
+          files = payload.get("files")
+          commit_message = payload.get("commit_message", "Update AI Engineer study content")
+
+          if not isinstance(files, list) or not files:
+              raise SystemExit("'files' must be a non-empty array.")
+
+          if not isinstance(commit_message, str) or not commit_message.strip():
+              raise SystemExit("'commit_message' must be a non-empty string.")
+
+          allowed_exact = {"README.md", "index.html"}
+          allowed_lesson = re.compile(r"^lessons/[A-Za-z0-9._-]+\.md$")
+
+          changed_paths = []
+
+          for item in files:
+              if not isinstance(item, dict):
+                  raise SystemExit("Each files[] item must be an object.")
+
+              path = item.get("path")
+              content_b64 = item.get("content_base64")
+
+              if not isinstance(path, str) or not path:
+                  raise SystemExit("Each file requires a non-empty 'path'.")
+
+              if path.startswith("/") or ".." in Path(path).parts:
+                  raise SystemExit(f"Unsafe path: {path}")
+
+              if path not in allowed_exact and not allowed_lesson.fullmatch(path):
+                  raise SystemExit(
+                      f"Path not allowed: {path}. "
+                      "Allowed: README.md, index.html, lessons/*.md"
+                  )
+
+              if not isinstance(content_b64, str) or not content_b64:
+                  raise SystemExit(f"Missing content_base64 for {path}")
+
+              try:
+                  content = base64.b64decode(content_b64, validate=True)
+              except Exception as e:
+                  raise SystemExit(f"Invalid base64 for {path}: {e}")
+
+              if len(content) > 2_000_000:
+                  raise SystemExit(f"File too large: {path}")
+
+              target = Path(path)
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(content)
+              changed_paths.append(path)
+
+          Path("/tmp/commit_message.txt").write_text(commit_message.strip(), encoding="utf-8")
+          Path("/tmp/changed_paths.txt").write_text("\n".join(changed_paths), encoding="utf-8")
+          PY
+
+      - name: Commit and push
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          while IFS= read -r path; do
+            git add -- "$path"
+          done < /tmp/changed_paths.txt
+
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          COMMIT_MESSAGE="$(cat /tmp/commit_message.txt)"
+          git commit -m "$COMMIT_MESSAGE"
+          git push
+
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const changed = '${{ steps.commit.outputs.changed }}' === 'true';
+            const sha = '${{ steps.commit.outputs.commit_sha }}';
+
+            const body = changed
+              ? `✅ Study files updated successfully.\n\nCommit: \`${sha}\``
+              : 'ℹ️ No file changes were detected.';
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+      - name: Close issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
