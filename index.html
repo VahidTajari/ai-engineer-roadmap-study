@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Engineer Roadmap - Study Hub</title>
+<style>
+:root {
+  --bg:#0b1020; --panel:#121a2f; --panel2:#18223c; --text:#eef2ff;
+  --muted:#aab4d0; --accent:#8b5cf6; --accent2:#22c55e; --border:#2a3657;
+}
+* { box-sizing:border-box; }
+body { margin:0; font-family:Tahoma,Arial,sans-serif; background:linear-gradient(180deg,#09101f,#0e1528); color:var(--text); line-height:1.9; }
+header { position:sticky; top:0; z-index:10; background:rgba(11,16,32,.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); }
+.wrap { max-width:1200px; margin:auto; padding:20px; }
+.top { display:flex; gap:18px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+h1 { margin:0; font-size:1.45rem; }
+.subtitle { color:var(--muted); font-size:.9rem; }
+.progress-box { min-width:260px; }
+.progress { height:10px; background:#222d49; border-radius:99px; overflow:hidden; }
+.progress > div { height:100%; width:0%; background:linear-gradient(90deg,var(--accent),#60a5fa); transition:.3s; }
+main { display:grid; grid-template-columns:330px 1fr; gap:22px; align-items:start; }
+aside { position:sticky; top:105px; max-height:calc(100vh - 125px); overflow:auto; }
+.panel { background:rgba(18,26,47,.92); border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,.15); }
+.roadmap-item { width:100%; display:grid; grid-template-columns:40px 1fr auto; gap:10px; align-items:center; text-align:right;
+ background:transparent; color:var(--text); border:1px solid transparent; padding:11px; border-radius:12px; cursor:pointer; margin:4px 0; }
+.roadmap-item:hover,.roadmap-item.active { background:var(--panel2); border-color:#3b4a73; }
+.roadmap-item .num { width:34px;height:34px; display:grid; place-items:center; border-radius:10px; background:#253152; color:#dbe4ff; }
+.roadmap-item small { display:block;color:var(--muted);line-height:1.35; }
+.status { font-size:.72rem;color:#fbbf24; }
+.content section { display:none; }
+.content section.active { display:block; }
+h2 { margin-top:0; font-size:1.55rem; }
+h3 { margin-top:28px; color:#c4b5fd; }
+.callout { border-right:4px solid var(--accent); background:#171f37; padding:12px 16px; border-radius:10px; }
+.grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.card { background:#151e34; border:1px solid var(--border); border-radius:14px; padding:15px; }
+details { background:#131c31; border:1px solid var(--border); border-radius:12px; padding:10px 14px; margin:10px 0; }
+summary { cursor:pointer; font-weight:bold; }
+kbd, code { direction:ltr; unicode-bidi:embed; font-family:Consolas,monospace; background:#0a1020; border:1px solid #283655; padding:2px 6px; border-radius:6px; }
+.tags { display:flex; flex-wrap:wrap; gap:8px; }
+.tag { background:#252f50; border:1px solid #36456e; padding:4px 9px; border-radius:999px; font-size:.82rem; }
+.flashcards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.flash { min-height:140px; perspective:1000px; cursor:pointer; }
+.flash-inner { position:relative; width:100%; height:100%; min-height:140px; transition:transform .5s; transform-style:preserve-3d; }
+.flash.flipped .flash-inner { transform:rotateY(180deg); }
+.face { position:absolute; inset:0; backface-visibility:hidden; display:grid; place-items:center; text-align:center;
+ border:1px solid var(--border); border-radius:14px; padding:18px; background:#17213a; }
+.back { transform:rotateY(180deg); background:#1d2948; }
+.note { width:100%; min-height:120px; background:#0c1427; color:var(--text); border:1px solid var(--border); border-radius:12px; padding:12px; resize:vertical; }
+.done-row { display:flex; gap:10px; align-items:center; margin-top:24px; padding-top:18px; border-top:1px solid var(--border); }
+button.primary { background:var(--accent); color:white; border:0; border-radius:10px; padding:10px 16px; cursor:pointer; }
+.source { color:var(--muted); font-size:.85rem; }
+.placeholder { opacity:.72; }
+@media (max-width:850px) {
+ main { grid-template-columns:1fr; }
+ aside { position:static; max-height:none; }
+ .grid,.flashcards { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <div>
+      <h1>AI Engineer Roadmap — Study Hub</h1>
+      <div class="subtitle">مرور تعاملی، فلش‌کارت، یادداشت و ثبت پیشرفت</div>
+    </div>
+    <div class="progress-box">
+      <div id="progressText" class="subtitle">پیشرفت: 0 از 11 بخش</div>
+      <div class="progress"><div id="progressBar"></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+<aside class="panel">
+  <div class="subtitle" style="margin-bottom:8px">بخش‌های اصلی رودمپ</div>
+
+    <button class="roadmap-item active" data-target="s01">
+      <span class="num">01</span>
+      <span><strong>مقدمه</strong><small>Introduction</small></span>
+      <span class="status">در حال مطالعه</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s02">
+      <span class="num">02</span>
+      <span><strong>مدل‌های از پیش‌آموزش‌دیده</strong><small>Pre-trained Models</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s03">
+      <span class="num">03</span>
+      <span><strong>OpenAI API</strong><small>OpenAI API</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s04">
+      <span class="num">04</span>
+      <span><strong>ایمنی و اخلاق هوش مصنوعی</strong><small>AI Safety and Ethics</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s05">
+      <span class="num">05</span>
+      <span><strong>هوش مصنوعی متن‌باز</strong><small>OpenSource AI</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s06">
+      <span class="num">06</span>
+      <span><strong>Embeddingها</strong><small>Embeddings</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s07">
+      <span class="num">07</span>
+      <span><strong>Vector Databaseها</strong><small>Vector Databases</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s08">
+      <span class="num">08</span>
+      <span><strong>RAG و پیاده‌سازی</strong><small>RAG & Implementation</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s09">
+      <span class="num">09</span>
+      <span><strong>AI Agentها</strong><small>AI Agents</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s10">
+      <span class="num">10</span>
+      <span><strong>هوش مصنوعی چندوجهی</strong><small>Multimodal AI</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+
+    <button class="roadmap-item " data-target="s11">
+      <span class="num">11</span>
+      <span><strong>ابزارهای توسعه</strong><small>Development Tools</small></span>
+      <span class="status">در انتظار</span>
+    </button>
+
+</aside>
+
+<article class="content panel">
+<section id="s01" class="active">
+  <h2>روز ۱ — مقدمه: AI Engineer دقیقاً چه کاری انجام می‌دهد؟</h2>
+  <p class="source">این بخش مطابق شاخه‌ی <b>Introduction</b> در رودمپ شماست. هدف امروز ساختن نقشه‌ی ذهنی کل مسیر است، نه رفتن عمیق در پیاده‌سازی هر مفهوم.</p>
+
+  <div class="callout">
+    <b>هدف پایان درس:</b> بتوانی تفاوت AI Engineer و ML Engineer را توضیح بدهی، جایگاه LLM، Inference، Training، Embedding، Vector DB، RAG، Agent و Prompt Engineering را در یک سیستم واقعی تشخیص بدهی.
+  </div>
+
+  <h3>1) AI Engineer کیست؟</h3>
+  <p>
+    AI Engineer معمولاً مهندسی است که قابلیت‌های مدل‌های هوش مصنوعی—به‌خصوص مدل‌های از پیش‌آموزش‌دیده—را به یک محصول نرم‌افزاری قابل استفاده تبدیل می‌کند.
+    تمرکز اصلی او اغلب روی <b>integration، orchestration، data flow، reliability، evaluation، security و productization</b> است.
+  </p>
+  <div class="grid">
+    <div class="card"><b>مثال</b><br>ساخت دستیار پاسخ‌گویی روی اسناد شرکت با یک LLM، Embedding، Vector DB و RAG.</div>
+    <div class="card"><b>نگاه مهندسی</b><br>مدل فقط یک جزء سیستم است؛ API، داده، احراز هویت، observability، هزینه، latency و fallback هم مهم‌اند.</div>
+  </div>
+
+  <h3>2) AI Engineer در برابر ML Engineer</h3>
+  <div class="grid">
+    <div class="card"><b>AI Engineer</b><br>بیشتر با مدل‌های آماده کار می‌کند، API/SDK را به محصول متصل می‌کند، RAG/Agent می‌سازد و روی تجربه‌ی محصول و production تمرکز دارد.</div>
+    <div class="card"><b>ML Engineer</b><br>بیشتر با چرخه‌ی مدل، training pipeline، feature/data pipeline، experiment، serving و performance مدل درگیر است.</div>
+  </div>
+  <p>این دو نقش مرز کاملاً صلب ندارند و در بعضی تیم‌ها هم‌پوشانی زیادی دارند.</p>
+
+  <h3>3) AI در برابر AGI</h3>
+  <details open>
+    <summary>AI</summary>
+    سامانه‌هایی که وظایف مشخصی مثل تولید متن، تشخیص تصویر، ترجمه یا توصیه‌گری را انجام می‌دهند.
+  </details>
+  <details>
+    <summary>AGI</summary>
+    اصطلاحی برای هوش عمومی در سطح گسترده و قابل‌انتقال میان حوزه‌های مختلف؛ در این رودمپ یک مفهوم زمینه‌ای است، نه موضوع اصلی پیاده‌سازی.
+  </details>
+
+  <h3>4) LLM چیست؟</h3>
+  <p>
+    Large Language Model مدلی است که روی حجم بزرگی از داده‌های متنی آموزش دیده و می‌تواند بر اساس context ورودی، توکن‌های بعدی را مدل‌سازی و تولید کند.
+    در محصول، ما معمولاً با مدل از طریق API یا runtime تعامل می‌کنیم.
+  </p>
+
+  <h3>5) Training و Inference</h3>
+  <div class="grid">
+    <div class="card"><b>Training</b><br>مرحله‌ای که پارامترهای مدل با استفاده از داده و فرایند بهینه‌سازی یاد گرفته/تنظیم می‌شوند.</div>
+    <div class="card"><b>Inference</b><br>مرحله‌ی استفاده از مدل آموزش‌دیده برای تولید خروجی روی ورودی جدید.</div>
+  </div>
+  <p>در مسیر AI Engineer، در بسیاری از پروژه‌ها بخش عمده‌ی کار روزمره روی <b>Inference و استفاده‌ی مهندسی از مدل‌های آماده</b> است.</p>
+
+  <h3>6) Embedding و Vector Database</h3>
+  <p>
+    Embedding یک نمایش عددیِ برداری از محتواست که شباهت معنایی را قابل محاسبه می‌کند.
+    Vector Database برای ذخیره، index و جست‌وجوی این بردارها بهینه شده است.
+  </p>
+  <p><b>زنجیره‌ی ذهنی:</b> متن → Embedding → Vector → ذخیره در Vector DB → Similarity Search</p>
+
+  <h3>7) RAG چیست؟</h3>
+  <p>
+    Retrieval-Augmented Generation یعنی قبل از تولید پاسخ، اطلاعات مرتبط از یک منبع بیرونی بازیابی شود و همراه سؤال به مدل داده شود.
+    هدف، متصل‌کردن مدل به دانش اختصاصی یا به‌روزِ سیستم است.
+  </p>
+  <p><b>Pipeline ساده:</b> سؤال کاربر → Embedding سؤال → Retrieval → Context → LLM → پاسخ</p>
+
+  <h3>8) AI Agent چیست؟</h3>
+  <p>
+    Agent سیستمی است که مدل را فقط برای «پاسخ متن» به‌کار نمی‌گیرد؛ مدل می‌تواند تصمیم بگیرد از ابزار یا تابعی استفاده کند، نتیجه را ببیند و چند مرحله برای رسیدن به هدف پیش برود.
+  </p>
+  <div class="card">
+    مثال: کاربر می‌گوید «آخرین وضعیت سفارش من را بگو». Agent می‌تواند تشخیص دهد باید ابزار <code>GetOrderStatus</code> را صدا بزند، خروجی را بخواند و پاسخ قابل فهم تولید کند.
+  </div>
+
+  <h3>9) Prompt Engineering</h3>
+  <p>
+    طراحی ورودی به مدل برای مشخص‌کردن نقش، هدف، context، محدودیت‌ها و شکل خروجی است. Prompt خوب جای معماری درست، داده‌ی درست یا validation را نمی‌گیرد؛ فقط یکی از اجزای سیستم است.
+  </p>
+
+  <h3>10) این مفاهیم در یک سیستم واقعی چگونه کنار هم قرار می‌گیرند؟</h3>
+  <div class="card">
+    <b>نمونه: دستیار داخلی شرکت</b><br>
+    Backend درخواست را می‌گیرد → اسناد مرتبط با Embedding و Vector Search پیدا می‌شوند → با RAG به prompt اضافه می‌شوند →
+    LLM پاسخ می‌دهد → اگر نیاز به action باشد Agent یک Tool را صدا می‌زند → خروجی validate، log و monitor می‌شود.
+  </div>
+
+  <h3>واژه‌های کلیدی امروز</h3>
+  <div class="tags">
+    <span class="tag">LLM</span><span class="tag">Training</span><span class="tag">Inference</span>
+    <span class="tag">Embedding</span><span class="tag">Vector Database</span><span class="tag">RAG</span>
+    <span class="tag">AI Agent</span><span class="tag">Prompt Engineering</span>
+  </div>
+
+  <h3>فلش‌کارت‌های مرور</h3>
+  <div class="flashcards">
+    <div class="flash"><div class="flash-inner"><div class="face">Training vs Inference؟</div><div class="face back">Training = یادگیری/تنظیم پارامترها؛ Inference = استفاده از مدل آموزش‌دیده روی ورودی جدید.</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">Embedding چه می‌کند؟</div><div class="face back">محتوا را به یک بردار عددی تبدیل می‌کند تا شباهت معنایی قابل محاسبه باشد.</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">RAG چه مسئله‌ای را حل می‌کند؟</div><div class="face back">دانش بیرونی/اختصاصی را قبل از Generation بازیابی کرده و به Context مدل اضافه می‌کند.</div></div></div>
+    <div class="flash"><div class="flash-inner"><div class="face">Agent چه چیزی فراتر از Chat دارد؟</div><div class="face back">می‌تواند Tool/Function فراخوانی کند و برای رسیدن به هدف، مراحل عملیاتی انجام دهد.</div></div></div>
+  </div>
+
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note01" class="note" placeholder="نکته‌ها، سؤال‌ها یا مثال‌هایی که می‌خواهی بعداً مرور کنی..."></textarea>
+
+  <div class="done-row">
+    <input type="checkbox" id="done01">
+    <label for="done01">این بخش را بعد از مطالعه و آزمون «تکمیل‌شده» علامت بزن</label>
+  </div>
+</section>
+
+
+<section id="s02">
+  <h2>مدل‌های از پیش‌آموزش‌دیده</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note02" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done02"><label for="done02">تکمیل‌شده</label></div>
+</section>
+
+<section id="s03">
+  <h2>OpenAI API</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note03" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done03"><label for="done03">تکمیل‌شده</label></div>
+</section>
+
+<section id="s04">
+  <h2>ایمنی و اخلاق هوش مصنوعی</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note04" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done04"><label for="done04">تکمیل‌شده</label></div>
+</section>
+
+<section id="s05">
+  <h2>هوش مصنوعی متن‌باز</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note05" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done05"><label for="done05">تکمیل‌شده</label></div>
+</section>
+
+<section id="s06">
+  <h2>Embeddingها</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note06" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done06"><label for="done06">تکمیل‌شده</label></div>
+</section>
+
+<section id="s07">
+  <h2>Vector Databaseها</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note07" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done07"><label for="done07">تکمیل‌شده</label></div>
+</section>
+
+<section id="s08">
+  <h2>RAG و پیاده‌سازی</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note08" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done08"><label for="done08">تکمیل‌شده</label></div>
+</section>
+
+<section id="s09">
+  <h2>AI Agentها</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note09" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done09"><label for="done09">تکمیل‌شده</label></div>
+</section>
+
+<section id="s10">
+  <h2>هوش مصنوعی چندوجهی</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note10" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done10"><label for="done10">تکمیل‌شده</label></div>
+</section>
+
+<section id="s11">
+  <h2>ابزارهای توسعه</h2>
+  <div class="callout placeholder">این بخش هنوز تدریس نشده است. وقتی به این مرحله برسیم، توضیح کامل، مثال‌ها، خلاصه، فلش‌کارت، نکات مرور و نتیجه‌ی آزمون به همین فایل اضافه می‌شود.</div>
+  <h3>یادداشت شخصی</h3>
+  <textarea id="note11" class="note"></textarea>
+  <div class="done-row"><input type="checkbox" id="done11"><label for="done11">تکمیل‌شده</label></div>
+</section>
+
+</article>
+</main>
+</div>
+
+<script>
+const total = 11;
+const navs = [...document.querySelectorAll('.roadmap-item')];
+const secs = [...document.querySelectorAll('.content section')];
+
+function show(id) {
+  secs.forEach(s => s.classList.toggle('active', s.id === id));
+  navs.forEach(n => n.classList.toggle('active', n.dataset.target === id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+navs.forEach(n => n.addEventListener('click', () => show(n.dataset.target)));
+
+document.querySelectorAll('.flash').forEach(f => f.addEventListener('click', () => f.classList.toggle('flipped')));
+
+function updateProgress() {
+  let done=0;
+  for(let i=1;i<=total;i++) {
+    const id = String(i).padStart(2,'0');
+    const c = document.getElementById('done'+id);
+    if(c && c.checked) done++;
+  }
+  document.getElementById('progressText').textContent = `پیشرفت: ${done} از ${total} بخش`;
+  document.getElementById('progressBar').style.width = `${(done/total)*100}%`;
+}
+for(let i=1;i<=total;i++) {
+  const id = String(i).padStart(2,'0');
+  const c = document.getElementById('done'+id);
+  const n = document.getElementById('note'+id);
+  if(c) {
+    c.checked = localStorage.getItem('done'+id)==='1';
+    c.addEventListener('change',()=>{localStorage.setItem('done'+id,c.checked?'1':'0');updateProgress();});
+  }
+  if(n) {
+    n.value = localStorage.getItem('note'+id)||'';
+    n.addEventListener('input',()=>localStorage.setItem('note'+id,n.value));
+  }
+}
+updateProgress();
+</script>
+</body>
+</html>
