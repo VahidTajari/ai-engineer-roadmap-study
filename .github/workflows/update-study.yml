@@ -1,1 +1,100 @@
+name: Update AI Engineer Study Files
+
+on:
+  workflow_dispatch:
+    inputs:
+      file_path:
+        description: 'Repository path to create/update, e.g. lessons/02-pretrained-models.md'
+        required: true
+        type: string
+      content_base64:
+        description: 'UTF-8 file content encoded as Base64'
+        required: true
+        type: string
+      commit_message:
+        description: 'Commit message'
+        required: false
+        default: 'Update AI Engineer study content'
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-engineer-study-update
+  cancel-in-progress: false
+
+jobs:
+  update-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate target path
+        shell: bash
+        env:
+          FILE_PATH: ${{ inputs.file_path }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "$FILE_PATH" ]]; then
+            echo "file_path is required"
+            exit 1
+          fi
+
+          if [[ "$FILE_PATH" = /* ]] || [[ "$FILE_PATH" == *".."* ]]; then
+            echo "Unsafe file path: $FILE_PATH"
+            exit 1
+          fi
+
+          case "$FILE_PATH" in
+            README.md|index.html|lessons/*.md)
+              ;;
+            *)
+              echo "Path is not allowed: $FILE_PATH"
+              echo "Allowed: README.md, index.html, lessons/*.md"
+              exit 1
+              ;;
+          esac
+
+      - name: Decode and write file
+        shell: bash
+        env:
+          FILE_PATH: ${{ inputs.file_path }}
+          CONTENT_BASE64: ${{ inputs.content_base64 }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p "$(dirname "$FILE_PATH")"
+          printf '%s' "$CONTENT_BASE64" | base64 --decode > "$FILE_PATH"
+
+          if [[ ! -s "$FILE_PATH" ]]; then
+            echo "Decoded file is empty."
+            exit 1
+          fi
+
+          echo "Updated: $FILE_PATH"
+
+      - name: Commit and push
+        shell: bash
+        env:
+          COMMIT_MESSAGE: ${{ inputs.commit_message }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No changes detected."
+            exit 0
+          fi
+
+          git add README.md index.html lessons/ 2>/dev/null || true
+          git commit -m "$COMMIT_MESSAGE"
+          git push
 
