@@ -1,5 +1,4 @@
 # مسیر یادگیری AI Engineer
-[مشاهده AI Engineer Study Hub](https://vahidtajari.github.io/ai-engineer-roadmap-study/)
 
 این ریپو برای یادگیری مرحله‌به‌مرحله‌ی رودمپ **AI Engineer** ساخته شده است.
 
@@ -19,7 +18,8 @@
 ├── README.md
 ├── index.html
 └── lessons
-    └── 01-introduction.md
+    ├── 01-introduction.md
+    └── 02-pre-trained-models.md
 ```
 
 ## فایل تعاملی
@@ -39,8 +39,8 @@
 
 ترتیب کلی دوره بر اساس رودمپ AI Engineer:
 
-1. Introduction
-2. Pre-trained Models
+1. Introduction ✅
+2. Pre-trained Models ✅
 3. OpenAI API
 4. AI Safety and Ethics
 5. Open Source AI
