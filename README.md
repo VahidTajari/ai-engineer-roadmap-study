@@ -1,4 +1,5 @@
 # مسیر یادگیری AI Engineer
+[مشاهده AI Engineer Study Hub](https://vahidtajari.github.io/ai-engineer-roadmap-study/)
 
 این ریپو برای یادگیری مرحله‌به‌مرحله‌ی رودمپ **AI Engineer** ساخته شده است.
 
